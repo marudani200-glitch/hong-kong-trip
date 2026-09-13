@@ -17,7 +17,7 @@ function countdown() {
 }
 
 function shell(content, back=false) {
-  return `<header class="topbar">${back?'<button class="icon-btn" data-home aria-label="日付一覧へ戻る">‹</button>':'<span class="bao-mini">♨</span>'}<span class="brand">香港旅行</span><span class="top-spacer"></span></header><main>${content}</main>`;
+  return `<header class="topbar">${back?'<button class="icon-btn" data-home aria-label="日付一覧へ戻る">‹</button>':'<img class="bao-mini" src="assets/icons/icon-192.png" alt="">'}<div class="brand-wrap"><span class="brand">香港旅行</span><small>2026年11月7日 − 2026年11月10日</small></div><span class="top-spacer"></span></header><main>${content}</main>`;
 }
 
 function renderHome() {
@@ -41,8 +41,8 @@ function eventStatus(day, index) {
 function renderDay(date) {
   const index=trip.days.findIndex(d=>d.date===date), day=trip.days[index]; if(!day) return renderHome();
   location.hash=`day=${date}`;
-  app.innerHTML=shell(`<section class="page-heading"><p class="eyebrow">DAY 0${index+1}</p><h1>${jpDate(date)}</h1><p>${esc(day.theme)}</p></section>
-  <section class="timeline">${day.events.map((e,i)=>{const status=eventStatus(day,i); return `<article class="event${status}" data-event><div class="time">${e.time}${status===' active'?'<small>いま</small>':status===' next'?'<small>次</small>':''}</div><div class="rail"><span></span></div><div class="event-card"><button class="event-summary" aria-expanded="false"><span class="category cat-${e.category}">${icons[e.category]||'•'} ${e.category}</span><strong>${esc(e.title)}</strong><span class="place">⌖ ${esc(e.place)}</span><span class="chevron">⌄</span></button><div class="event-detail">${e.note?`<p>${esc(e.note)}</p>`:''}<div class="actions"><a href="${mapUrl(e.mapQuery||e.place)}" target="_blank" rel="noopener">地図を開く ↗</a><button data-copy="${esc(e.place)}">場所をコピー</button></div></div></div></article>`}).join('')}</section>
+  app.innerHTML=shell(`<section class="page-heading"><div class="day-label">${index+1}日目</div><div><h1>${jpDate(date)}</h1><p>${esc(day.theme)}</p></div><strong class="timezone">UTC+${index===0||index===3?'9':'8'}</strong></section>
+  <section class="timeline">${day.events.map((e,i)=>{const status=eventStatus(day,i); return `<article class="event${status}" data-event><div class="time">${e.time}${status===' active'?'<small>いま</small>':status===' next'?'<small>次</small>':''}</div><div class="rail"><span class="cat-${e.category}">${icons[e.category]||'•'}</span></div><div class="event-card"><button class="event-summary" aria-expanded="false"><span class="category cat-${e.category}">${e.category}</span><strong>${esc(e.title)}</strong><span class="place">${esc(e.place)}</span><span class="chevron">⌄</span></button><div class="event-detail">${e.note?`<p>${esc(e.note)}</p>`:''}<div class="actions"><a href="${mapUrl(e.mapQuery||e.place)}" target="_blank" rel="noopener">地図を開く ↗</a><button data-copy="${esc(e.place)}">場所をコピー</button></div></div></div></article>`}).join('')}</section>
   <nav class="day-nav">${index>0?`<button data-date="${trip.days[index-1].date}">← 前日</button>`:'<span></span>'}<button data-home>日付一覧</button>${index<trip.days.length-1?`<button data-date="${trip.days[index+1].date}">翌日 →</button>`:'<span></span>'}</nav>`,true);
 }
 
