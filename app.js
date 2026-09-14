@@ -39,7 +39,7 @@ function shell(content, back=false) {
 function renderHome() {
   if(location.hash)history.pushState(null,'',location.pathname+location.search);
   app.innerHTML=shell(`<section class="hero home-hero"><div class="countdown"><span class="pulse"></span>${countdown()}</div></section>
-  <section class="home-grid">${trip.days.map(d=>`<button class="day-card" data-date="${d.date}"><span class="date"><small>${jpDate(d.date).split('(')[0]}</small><strong>${esc(d.theme)}</strong></span><span class="arrow">↗</span></button>`).join('')}</section>
+  <section class="home-grid">${trip.days.map((d,i)=>`<button class="day-card" data-date="${d.date}"><span class="date"><span class="day-index">${i+1}日目</span><small>${jpDate(d.date).split('(')[0]}</small><strong>${esc(d.theme)}</strong></span><span class="arrow">↗</span></button>`).join('')}</section>
   <footer>2026.11.07 — 11.10 · HONG KONG</footer>`);
 }
 
@@ -84,7 +84,7 @@ function renderSpots(){
 
 function renderSettings(){
   if(location.hash!=='#settings')history.pushState(null,'','#settings');
-  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.13<br>旅程更新日：2026年9月14日</p></article></section>`);
+  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.14<br>旅程更新日：2026年9月14日</p></article></section>`);
   renderInstall();
 }
 
