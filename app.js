@@ -7,7 +7,7 @@ const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt
 const mapUrl = q => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 const jpDate = date => new Intl.DateTimeFormat('ja-JP',{month:'long',day:'numeric',weekday:'short'}).format(new Date(`${date}T12:00:00`));
 const showToast = message => { toast.textContent=message; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),2200); };
-const svgPaths={home:'<path d="M3 11.5 12 4l9 7.5V21h-6v-6H9v6H3z"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.01"/>',settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1v.1h-4v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1-.4h-.1v-4H3A1.7 1.7 0 0 0 4.6 8.5a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1v-.1h4V3A1.7 1.7 0 0 0 15.5 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.15.37.36.7.6 1 .28.25.63.39 1 .4h.1v4H21a1.7 1.7 0 0 0-1.6.6Z"/>',food:'<path d="M7 3v8m-3-8v5c0 2 1.3 3 3 3s3-1 3-3V3m-3 8v10M16 3c3 2 3 7 0 10v8m0-18v10h3"/>',plane:'<path d="m2 16 20-8-2-2-8 3-5-5-2 1 3 6-4 2zM13 14l-1 6 2-1 4-7"/>',train:'<rect x="5" y="3" width="14" height="16" rx="3"/><path d="M8 7h8M8 13h.01M16 13h.01M8 19l-2 3m10-3 2 3"/>',car:'<path d="m5 17-1 2m15-2 1 2M3 13l2-6h14l2 6v5H3zM6 14h.01M18 14h.01"/>',bed:'<path d="M3 20v-9m18 9v-7a3 3 0 0 0-3-3H9v7m-6 0h18M6 10V7h3a3 3 0 0 1 3 3"/>',shop:'<path d="M3 4h2l2.5 11h10L20 7H6m3 12h.01M17 19h.01"/>',star:'<path d="m12 3 2.7 5.6 6.3.9-4.5 4.4 1 6.2-5.5-3-5.5 3 1-6.2L3 9.5l6.3-.9z"/>',landmark:'<path d="m3 10 9-7 9 7M5 10h14M7 10v8m5-8v8m5-8v8M4 21h16"/>'};
+const svgPaths={home:'<path d="M3 11.5 12 4l9 7.5V21h-6v-6H9v6H3z"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.01"/>',check:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 3V1m8 2V1M8 9l2 2 5-5m-7 9h8"/>',settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1v.1h-4v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1-.4h-.1v-4H3A1.7 1.7 0 0 0 4.6 8.5a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1v-.1h4V3A1.7 1.7 0 0 0 15.5 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.15.37.36.7.6 1 .28.25.63.39 1 .4h.1v4H21a1.7 1.7 0 0 0-1.6.6Z"/>',food:'<path d="M7 3v8m-3-8v5c0 2 1.3 3 3 3s3-1 3-3V3m-3 8v10M16 3c3 2 3 7 0 10v8m0-18v10h3"/>',plane:'<path d="m2 16 20-8-2-2-8 3-5-5-2 1 3 6-4 2zM13 14l-1 6 2-1 4-7"/>',train:'<rect x="5" y="3" width="14" height="16" rx="3"/><path d="M8 7h8M8 13h.01M16 13h.01M8 19l-2 3m10-3 2 3"/>',car:'<path d="m5 17-1 2m15-2 1 2M3 13l2-6h14l2 6v5H3zM6 14h.01M18 14h.01"/>',bed:'<path d="M3 20v-9m18 9v-7a3 3 0 0 0-3-3H9v7m-6 0h18M6 10V7h3a3 3 0 0 1 3 3"/>',shop:'<path d="M3 4h2l2.5 11h10L20 7H6m3 12h.01M17 19h.01"/>',star:'<path d="m12 3 2.7 5.6 6.3.9-4.5 4.4 1 6.2-5.5-3-5.5 3 1-6.2L3 9.5l6.3-.9z"/>',landmark:'<path d="m3 10 9-7 9 7M5 10h14M7 10v8m5-8v8m5-8v8M4 21h16"/>'};
 svgPaths.bus='<rect x="4" y="3" width="16" height="16" rx="3"/><path d="M7 7h10M7 13h.01M17 13h.01M7 19l-2 3m12-3 2 3"/>';
 svgPaths.walk='<circle cx="13" cy="4" r="2"/><path d="m10 22 2-7-3-3 2-5 4 3 3 1m-6 4 4 3 1 4M9 12l-4 3"/>';
 svgPaths.pin='<path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>';
@@ -32,8 +32,8 @@ function countdown() {
 }
 
 function shell(content, back=false) {
-  const hash=location.hash.slice(1), active=hash==='info'?'info':hash==='spots'?'spots':hash==='settings'?'settings':'home';
-  return `<header class="topbar">${back?'<button class="icon-btn" data-home aria-label="日付一覧へ戻る">‹</button>':'<span class="header-spacer"></span>'}<div class="brand-wrap"><span class="brand">香港旅行</span><small>2026年11月7日 − 2026年11月10日</small></div><span class="top-spacer"></span></header><main>${content}</main><nav class="bottom-tabs" aria-label="メインメニュー"><button data-home class="${active==='home'?'selected':''}" aria-label="ホーム">${iconSvg('home')}</button><button data-info class="${active==='info'?'selected':''}" aria-label="基本情報">${iconSvg('info')}</button><button data-spots class="${active==='spots'?'selected':''}" aria-label="候補スポット">${iconSvg('pin')}</button><button data-settings class="${active==='settings'?'selected':''}" aria-label="設定">${iconSvg('settings')}</button></nav>`;
+  const hash=location.hash.slice(1), active=hash==='info'?'info':hash==='prep'?'prep':hash==='spots'?'spots':hash==='settings'?'settings':'home';
+  return `<header class="topbar">${back?'<button class="icon-btn" data-home aria-label="日付一覧へ戻る">‹</button>':'<span class="header-spacer"></span>'}<div class="brand-wrap"><span class="brand">香港旅行</span><small>2026年11月7日 − 2026年11月10日</small></div><span class="top-spacer"></span></header><main>${content}</main><nav class="bottom-tabs" aria-label="メインメニュー"><button data-home class="${active==='home'?'selected':''}" aria-label="ホーム">${iconSvg('home')}</button><button data-info class="${active==='info'?'selected':''}" aria-label="基本情報">${iconSvg('info')}</button><button data-prep class="${active==='prep'?'selected':''}" aria-label="旅行前の準備">${iconSvg('check')}</button><button data-spots class="${active==='spots'?'selected':''}" aria-label="候補スポット">${iconSvg('pin')}</button><button data-settings class="${active==='settings'?'selected':''}" aria-label="設定">${iconSvg('settings')}</button></nav>`;
 }
 
 function renderHome() {
@@ -67,6 +67,20 @@ function renderInfo() {
   <section class="info-section emergency"><h2>緊急連絡先</h2>${info.emergency.map(e=>`<article class="detail-card"><div><h3>${e.name}</h3><p>${e.note}</p>${e.address?`<p>${e.address}</p>`:''}</div><div class="actions"><a href="tel:${e.phone.replace(/\s/g,'')}">${e.phone} に電話</a><button data-copy="${e.phone}">番号をコピー</button></div></article>`).join('')}<p class="source-note">連絡先は香港政府・在香港日本国総領事館の公式情報を参照（2026年9月確認）</p></section>`);
 }
 
+const prepGroups=[
+  {title:'予約・書類',items:['パスポートの有効期限を確認','航空券とホテルの予約内容を確認','海外旅行保険に加入','航空券・ホテル情報をオフライン保存']},
+  {title:'通信・お金',items:['香港で使えるeSIMまたはローミングを準備','クレジットカードの海外利用設定を確認','現金と交通系ICカード用の予算を用意','Googleマップの香港エリアをオフライン保存']},
+  {title:'持ち物・端末',items:['変換プラグ（BFタイプ）を用意','モバイルバッテリーと充電ケーブルを用意','常備薬・雨具・歩きやすい靴を準備','パスポート紛失時用のコピーを別に保管']},
+  {title:'出発直前',items:['オンラインチェックインを確認','香港の天気と服装を確認','空港までの交通手段と終電を確認','家族へ旅程と緊急連絡先を共有']}
+];
+
+function prepState(){try{return JSON.parse(localStorage.hkPrep||'{}')}catch{return{}}}
+function renderPrep(){
+  if(location.hash!=='#prep')history.pushState(null,'','#prep');
+  const state=prepState(),total=prepGroups.reduce((n,g)=>n+g.items.length,0),done=Object.values(state).filter(Boolean).length;
+  app.innerHTML=shell(`<section class="prep-heading"><div><h1>旅行前の準備</h1><p>出発までに済ませること</p></div><strong><span data-prep-done>${done}</span> / ${total}</strong></section><div class="prep-progress"><span style="width:${done/total*100}%" data-prep-progress></span></div><section class="prep-groups">${prepGroups.map((g,gi)=>`<article class="prep-group"><h2>${g.title}</h2>${g.items.map((item,ii)=>{const id=`${gi}-${ii}`;return`<label class="prep-item${state[id]?' checked':''}"><input type="checkbox" data-prep-check="${id}" ${state[id]?'checked':''}><span class="prep-checkmark">✓</span><span>${item}</span></label>`}).join('')}</article>`).join('')}</section>`);
+}
+
 function renderSpots(){
   if(location.hash!=='#spots')history.pushState(null,'','#spots');
   const spots=trip.candidateSpots||[];
@@ -75,7 +89,7 @@ function renderSpots(){
 
 function renderSettings(){
   if(location.hash!=='#settings')history.pushState(null,'','#settings');
-  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.8<br>旅程更新日：2026年9月14日</p></article></section>`);
+  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.9<br>旅程更新日：2026年9月14日</p></article></section>`);
   renderInstall();
 }
 
@@ -97,10 +111,11 @@ function showInstallModal(){
 }
 
 document.addEventListener('click',async e=>{
-  const t=e.target.closest('[data-home],[data-date],[data-info],[data-spots],[data-settings],[data-filter],[data-spot],[data-event],[data-transit],[data-copy],[data-install],[data-dismiss],[data-close-install]'); if(!t)return;
+  const t=e.target.closest('[data-home],[data-date],[data-info],[data-prep],[data-spots],[data-settings],[data-filter],[data-spot],[data-event],[data-transit],[data-copy],[data-install],[data-dismiss],[data-close-install]'); if(!t)return;
   if(t.matches('[data-home]')) smoothRender(renderHome);
   else if(t.dataset.date) smoothRender(()=>renderDay(t.dataset.date));
   else if(t.matches('[data-info]')) smoothRender(renderInfo);
+  else if(t.matches('[data-prep]')) smoothRender(renderPrep);
   else if(t.matches('[data-spots]')) smoothRender(renderSpots);
   else if(t.matches('[data-settings]')) smoothRender(renderSettings);
   else if(t.matches('[data-filter]')){document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('selected',b===t));document.querySelectorAll('[data-spot-category]').forEach(card=>card.hidden=t.dataset.filter!=='すべて'&&card.dataset.spotCategory!==t.dataset.filter);}
@@ -113,9 +128,11 @@ document.addEventListener('click',async e=>{
   else {localStorage.installDismissed='1';document.querySelector('#install-area').innerHTML='';}
 });
 
+document.addEventListener('change',e=>{if(!e.target.matches('[data-prep-check]'))return;const state=prepState();state[e.target.dataset.prepCheck]=e.target.checked;localStorage.hkPrep=JSON.stringify(state);e.target.closest('.prep-item').classList.toggle('checked',e.target.checked);const total=prepGroups.reduce((n,g)=>n+g.items.length,0),done=Object.values(state).filter(Boolean).length;document.querySelector('[data-prep-done]').textContent=done;document.querySelector('[data-prep-progress]').style.width=`${done/total*100}%`;});
+
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;renderInstall();const dialog=document.querySelector('.install-dialog');if(dialog&&!dialog.querySelector('[data-install]')){const button=document.createElement('button');button.className='modal-install-button';button.dataset.install='';button.textContent='ホーム画面に追加';dialog.querySelector('.modal-later').before(button);}});
 window.addEventListener('popstate',route);
-function route(){const h=location.hash.slice(1);if(h==='info')renderInfo();else if(h==='spots')renderSpots();else if(h==='settings')renderSettings();else if(h.startsWith('day='))renderDay(h.slice(4));else renderHome();}
+function route(){const h=location.hash.slice(1);if(h==='info')renderInfo();else if(h==='prep')renderPrep();else if(h==='spots')renderSpots();else if(h==='settings')renderSettings();else if(h.startsWith('day='))renderDay(h.slice(4));else renderHome();}
 
 async function init(){try{trip=await fetch('trip-data.json').then(r=>{if(!r.ok)throw Error();return r.json()});route();setTimeout(showInstallModal,420);setInterval(()=>{if(location.hash.startsWith('#day='))renderDay(location.hash.slice(5));},60000);}catch{app.innerHTML='<main class="error"><h1>旅程を読み込めませんでした</h1><p>通信状態を確認して、もう一度開いてください。</p></main>';}}
 
