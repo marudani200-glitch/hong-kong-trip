@@ -1,6 +1,5 @@
 const app = document.querySelector('#app');
 const toast = document.querySelector('#toast');
-const icons = { '観光':'✦', '食事':'♨', '移動':'➜', '宿泊':'▰', '買い物':'◇', 'その他':'•' };
 let trip;
 let deferredInstall;
 
@@ -8,6 +7,10 @@ const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt
 const mapUrl = q => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 const jpDate = date => new Intl.DateTimeFormat('ja-JP',{month:'long',day:'numeric',weekday:'short'}).format(new Date(`${date}T12:00:00`));
 const showToast = message => { toast.textContent=message; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),2200); };
+const svgPaths={home:'<path d="M3 11.5 12 4l9 7.5V21h-6v-6H9v6H3z"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.01"/>',settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1v.1h-4v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1-.4h-.1v-4H3A1.7 1.7 0 0 0 4.6 8.5a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1v-.1h4V3A1.7 1.7 0 0 0 15.5 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.15.37.36.7.6 1 .28.25.63.39 1 .4h.1v4H21a1.7 1.7 0 0 0-1.6.6Z"/>',food:'<path d="M7 3v8m-3-8v5c0 2 1.3 3 3 3s3-1 3-3V3m-3 8v10M16 3c3 2 3 7 0 10v8m0-18v10h3"/>',plane:'<path d="m2 16 20-8-2-2-8 3-5-5-2 1 3 6-4 2zM13 14l-1 6 2-1 4-7"/>',train:'<rect x="5" y="3" width="14" height="16" rx="3"/><path d="M8 7h8M8 13h.01M16 13h.01M8 19l-2 3m10-3 2 3"/>',bed:'<path d="M3 20v-9m18 9v-7a3 3 0 0 0-3-3H9v7m-6 0h18M6 10V7h3a3 3 0 0 1 3 3"/>',shop:'<path d="M3 4h2l2.5 11h10L20 7H6m3 12h.01M17 19h.01"/>',star:'<path d="m12 3 2.7 5.6 6.3.9-4.5 4.4 1 6.2-5.5-3-5.5 3 1-6.2L3 9.5l6.3-.9z"/>',landmark:'<path d="m3 10 9-7 9 7M5 10h14M7 10v8m5-8v8m5-8v8M4 21h16"/>'};
+const iconSvg=name=>`<svg viewBox="0 0 24 24" aria-hidden="true">${svgPaths[name]||svgPaths.star}</svg>`;
+function eventIcon(e){if(e.category==='食事')return'food';if(e.category==='宿泊')return'bed';if(e.category==='買い物')return'shop';if(/離陸|空港|到着/.test(e.title))return'plane';if(/トラム/.test(e.title))return'train';if(/文武廟/.test(e.title))return'landmark';return'star';}
+const smoothRender=fn=>document.startViewTransition?document.startViewTransition(fn):fn();
 
 function countdown() {
   const now = new Date(); const start = new Date(`${trip.startDate}T00:00:00+09:00`); const end = new Date(`${trip.endDate}T23:59:59+09:00`);
@@ -18,11 +21,11 @@ function countdown() {
 
 function shell(content, back=false) {
   const hash=location.hash.slice(1), active=hash==='info'?'info':hash==='settings'?'settings':'home';
-  return `<header class="topbar">${back?'<button class="icon-btn" data-home aria-label="日付一覧へ戻る">‹</button>':'<span class="header-spacer"></span>'}<div class="brand-wrap"><span class="brand">香港旅行</span><small>2026年11月7日 − 2026年11月10日</small></div><span class="top-spacer"></span></header><main>${content}</main><nav class="bottom-tabs" aria-label="メインメニュー"><button data-home class="${active==='home'?'selected':''}"><span>⌂</span>ホーム</button><button data-info class="${active==='info'?'selected':''}"><span>i</span>基本情報</button><button data-settings class="${active==='settings'?'selected':''}"><span>⚙︎</span>設定</button></nav>`;
+  return `<header class="topbar">${back?'<button class="icon-btn" data-home aria-label="日付一覧へ戻る">‹</button>':'<span class="header-spacer"></span>'}<div class="brand-wrap"><span class="brand">香港旅行</span><small>2026年11月7日 − 2026年11月10日</small></div><span class="top-spacer"></span></header><main>${content}</main><nav class="bottom-tabs" aria-label="メインメニュー"><button data-home class="${active==='home'?'selected':''}" aria-label="ホーム">${iconSvg('home')}</button><button data-info class="${active==='info'?'selected':''}" aria-label="基本情報">${iconSvg('info')}</button><button data-settings class="${active==='settings'?'selected':''}" aria-label="設定">${iconSvg('settings')}</button></nav>`;
 }
 
 function renderHome() {
-  location.hash='';
+  if(location.hash)history.pushState(null,'',location.pathname+location.search);
   app.innerHTML=shell(`<section class="hero home-hero"><div class="countdown"><span class="pulse"></span>${countdown()}</div></section>
   <section class="home-grid">${trip.days.map(d=>`<button class="day-card" data-date="${d.date}"><span class="date"><small>${jpDate(d.date).split('(')[0]}</small><strong>${esc(d.theme)}</strong></span><span class="arrow">↗</span></button>`).join('')}</section>
   <footer>2026.11.07 — 11.10 · HONG KONG</footer>`);
@@ -39,23 +42,22 @@ function eventStatus(day, index) {
 
 function renderDay(date) {
   const index=trip.days.findIndex(d=>d.date===date), day=trip.days[index]; if(!day) return renderHome();
-  location.hash=`day=${date}`;
+  if(location.hash!==`#day=${date}`)history.pushState(null,'',`#day=${date}`);
   app.innerHTML=shell(`<section class="page-heading"><div class="day-label">${index+1}日目</div><div><h1>${jpDate(date)}</h1><p>${esc(day.theme)}</p></div><strong class="timezone">UTC+${index===0||index===3?'9':'8'}</strong></section>
-  <section class="timeline">${day.events.map((e,i)=>{const status=eventStatus(day,i); return `<article class="event${status}" data-event><div class="time">${e.time}${status===' active'?'<small>いま</small>':status===' next'?'<small>次</small>':''}</div><div class="rail"><span class="cat-${e.category}">${icons[e.category]||'•'}</span></div><div class="event-card"><button class="event-summary" aria-expanded="false"><span class="category cat-${e.category}">${e.category}</span><strong>${esc(e.title)}</strong><span class="place">${esc(e.place)}</span><span class="chevron">⌄</span></button><div class="event-detail">${e.note?`<p>${esc(e.note)}</p>`:''}<div class="actions"><a href="${mapUrl(e.mapQuery||e.place)}" target="_blank" rel="noopener">地図を開く ↗</a><button data-copy="${esc(e.place)}">場所をコピー</button></div></div></div></article>`}).join('')}</section>
+  <section class="timeline">${day.events.map((e,i)=>{const status=eventStatus(day,i); return `<article class="event${status}" data-event><div class="time">${e.time}${status===' active'?'<small>いま</small>':status===' next'?'<small>次</small>':''}</div><div class="rail"><span class="cat-${e.category}">${iconSvg(eventIcon(e))}</span></div><div class="event-card"><button class="event-summary" aria-expanded="false"><span class="category cat-${e.category}">${e.category}</span><strong>${esc(e.title)}</strong><span class="place">${esc(e.place)}</span><span class="chevron">⌄</span></button><div class="event-detail"><div class="detail-inner">${e.note?`<p>${esc(e.note)}</p>`:''}<div class="actions"><a href="${mapUrl(e.mapQuery||e.place)}" target="_blank" rel="noopener">地図を開く ↗</a><button data-copy="${esc(e.place)}">場所をコピー</button></div></div></div></div></article>${i<day.events.length-1?'<div class="transit-gap"><span>移動</span></div>':''}`}).join('')}</section>
   <nav class="day-nav">${index>0?`<button data-date="${trip.days[index-1].date}">← 前日</button>`:'<span></span>'}<button data-home>日付一覧</button>${index<trip.days.length-1?`<button data-date="${trip.days[index+1].date}">翌日 →</button>`:'<span></span>'}</nav>`,true);
 }
 
 function renderInfo() {
-  const info=trip.travelInfo; location.hash='info';
-  app.innerHTML=shell(`<section class="page-heading"><p class="eyebrow">TRIP ESSENTIALS</p><h1>旅行情報</h1><p>必要な情報を、ひとつの場所に。</p></section>
-  <section class="info-section"><h2>フライト</h2>${info.flights.map(f=>`<article class="detail-card"><div class="detail-label">${f.label}</div><h3>${f.number}</h3><strong class="route">${f.route}</strong><p>出発　${f.depart}</p><p>到着　${f.arrive}</p><a class="primary-action" href="${info.flightStatusUrl}" target="_blank" rel="noopener">運航状況を確認 ↗</a></article>`).join('')}</section>
+  const info=trip.travelInfo; if(location.hash!=='#info')history.pushState(null,'','#info');
+  app.innerHTML=shell(`<section class="info-section info-first"><h2>フライト</h2>${info.flights.map(f=>`<article class="detail-card"><div class="detail-label">${f.label}</div><h3>${f.number}</h3><strong class="route">${f.route}</strong><p>出発　${f.depart}</p><p>到着　${f.arrive}</p><a class="primary-action" href="${info.flightStatusUrl}" target="_blank" rel="noopener">運航状況を確認 ↗</a></article>`).join('')}</section>
   <section class="info-section"><h2>宿泊先</h2><article class="detail-card"><div class="detail-label">HOTEL</div><h3>${info.hotel.name}</h3><p>${info.hotel.address}</p><p>${info.hotel.phone}</p><div class="actions"><a href="${mapUrl(info.hotel.mapQuery)}" target="_blank" rel="noopener">地図を開く ↗</a><button data-copy="${info.hotel.address}">住所をコピー</button><button data-copy="${info.hotel.phone}">電話をコピー</button></div></article></section>
   <section class="info-section emergency"><h2>緊急連絡先</h2>${info.emergency.map(e=>`<article class="detail-card"><div><h3>${e.name}</h3><p>${e.note}</p>${e.address?`<p>${e.address}</p>`:''}</div><div class="actions"><a href="tel:${e.phone.replace(/\s/g,'')}">${e.phone} に電話</a><button data-copy="${e.phone}">番号をコピー</button></div></article>`).join('')}<p class="source-note">連絡先は香港政府・在香港日本国総領事館の公式情報を参照（2026年9月確認）</p></section>`,true);
 }
 
 function renderSettings(){
-  location.hash='settings';
-  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.1<br>旅程更新日：2026年9月14日</p></article></section>`);
+  if(location.hash!=='#settings')history.pushState(null,'','#settings');
+  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.2<br>旅程更新日：2026年9月14日</p></article></section>`);
   renderInstall();
 }
 
@@ -68,10 +70,10 @@ function renderInstall(){
 
 document.addEventListener('click',async e=>{
   const t=e.target.closest('[data-home],[data-date],[data-info],[data-settings],[data-event],[data-copy],[data-install],[data-dismiss]'); if(!t)return;
-  if(t.matches('[data-home]')) renderHome();
-  else if(t.dataset.date) renderDay(t.dataset.date);
-  else if(t.matches('[data-info]')) renderInfo();
-  else if(t.matches('[data-settings]')) renderSettings();
+  if(t.matches('[data-home]')) smoothRender(renderHome);
+  else if(t.dataset.date) smoothRender(()=>renderDay(t.dataset.date));
+  else if(t.matches('[data-info]')) smoothRender(renderInfo);
+  else if(t.matches('[data-settings]')) smoothRender(renderSettings);
   else if(t.matches('[data-event]')) {const b=t.querySelector('.event-summary'); if(e.target.closest('a,[data-copy]'))return; t.classList.toggle('open'); b.setAttribute('aria-expanded',t.classList.contains('open'));}
   else if(t.dataset.copy!==undefined){await navigator.clipboard.writeText(t.dataset.copy);showToast('コピーしました');}
   else if(t.matches('[data-install]')){deferredInstall.prompt(); await deferredInstall.userChoice; deferredInstall=null;renderInstall();}
@@ -79,7 +81,7 @@ document.addEventListener('click',async e=>{
 });
 
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;renderInstall();});
-window.addEventListener('hashchange',route);
+window.addEventListener('popstate',route);
 function route(){const h=location.hash.slice(1);if(h==='info')renderInfo();else if(h==='settings')renderSettings();else if(h.startsWith('day='))renderDay(h.slice(4));else renderHome();}
 
 async function init(){try{trip=await fetch('trip-data.json').then(r=>{if(!r.ok)throw Error();return r.json()});route();setInterval(()=>{if(location.hash.startsWith('#day='))renderDay(location.hash.slice(5));},60000);}catch{app.innerHTML='<main class="error"><h1>旅程を読み込めませんでした</h1><p>通信状態を確認して、もう一度開いてください。</p></main>';}}
