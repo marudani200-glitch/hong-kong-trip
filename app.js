@@ -13,7 +13,15 @@ svgPaths.walk='<circle cx="13" cy="4" r="2"/><path d="m10 22 2-7-3-3 2-5 4 3 3 1
 const iconSvg=name=>`<svg viewBox="0 0 24 24" aria-hidden="true">${svgPaths[name]||svgPaths.star}</svg>`;
 const transitIcon=mode=>mode==='タクシー'?'car':mode==='徒歩'?'walk':mode==='シャトルバス'?'bus':'train';
 function eventIcon(e){if(e.category==='食事')return'food';if(e.category==='宿泊')return'bed';if(e.category==='買い物')return'shop';if(/離陸|空港|到着/.test(e.title))return'plane';if(/トラム/.test(e.title))return'train';if(/文武廟/.test(e.title))return'landmark';return'star';}
-const smoothRender=fn=>document.startViewTransition?document.startViewTransition(fn):fn();
+const mobileMotion=()=>matchMedia('(max-width: 768px), (pointer: coarse)').matches;
+const smoothRender=fn=>{
+  if(document.startViewTransition&&!mobileMotion())return document.startViewTransition(fn);
+  fn();
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches)app.animate([
+    {opacity:.72,transform:'translate3d(0,7px,0)'},
+    {opacity:1,transform:'translate3d(0,0,0)'}
+  ],{duration:240,easing:'cubic-bezier(.2,.8,.2,1)'});
+};
 
 function countdown() {
   const now = new Date(); const start = new Date(`${trip.startDate}T00:00:00+09:00`); const end = new Date(`${trip.endDate}T23:59:59+09:00`);
@@ -60,7 +68,7 @@ function renderInfo() {
 
 function renderSettings(){
   if(location.hash!=='#settings')history.pushState(null,'','#settings');
-  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.4<br>旅程更新日：2026年9月14日</p></article></section>`);
+  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.5<br>旅程更新日：2026年9月14日</p></article></section>`);
   renderInstall();
 }
 
