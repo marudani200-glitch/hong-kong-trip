@@ -4,39 +4,39 @@
   "endDate": "2026-11-10",
   "days": [
     {"date":"2026-11-07","theme":"出発","events":[
-      {"time":"23:30","title":"羽田空港 第3ターミナル集合","place":"羽田空港 第3ターミナル","category":"移動","mapQuery":"羽田空港 第3ターミナル"}
+      {"time":"23:30","title":"羽田空港 第3ターミナル集合","place":"羽田空港 第3ターミナル","category":"移動","note":"国際線が発着するターミナル。江戸の街並みを再現した商業エリアもある。","mapQuery":"羽田空港 第3ターミナル"}
     ]},
     {"date":"2026-11-08","theme":"香港島観光とグルメ巡り","events":[
-      {"time":"01:55","title":"羽田空港を離陸","place":"羽田空港 第3ターミナル","category":"移動","note":"HK Express 629","mapQuery":"羽田空港 第3ターミナル","transitAfter":false},
-      {"time":"06:15","title":"香港国際空港に到着","place":"香港国際空港（HKG）ターミナル1","category":"移動","mapQuery":"Hong Kong International Airport Terminal 1","transitAfter":{"mode":"タクシー"}},
-      {"time":"07:15","title":"ホテル到着・荷物を預ける","place":"ディズニー・ハリウッド・ホテル","category":"宿泊","mapQuery":"Disney's Hollywood Hotel Hong Kong","transitAfter":{"mode":"地下鉄"}},
-      {"time":"08:45","title":"新興食家で朝ごはん","place":"新興食家","category":"食事","note":"飲茶","mapQuery":"新興食家 Hong Kong","transitAfter":{"mode":"地下鉄"}},
-      {"time":"10:00","title":"ピークトラムと100万ドルの朝景","place":"ビクトリア・ピーク展望台","category":"観光","note":"ピークトラムに乗って展望台へ","mapQuery":"Victoria Peak Hong Kong","transitAfter":{"mode":"徒歩"}},
-      {"time":"12:00","title":"沾仔記で昼ごはん","place":"Tsim Chai Kee Noodle 沾仔記","category":"食事","note":"ワンタンメン","mapQuery":"Tsim Chai Kee Noodle 沾仔記","transitAfter":false},
-      {"time":"12:30","title":"一楽焼鵝でお肉","place":"一楽焼鵝","category":"食事","mapQuery":"一楽焼鵝 Hong Kong","transitAfter":false},
-      {"time":"13:15","title":"エッグタルトを購入","place":"泰昌餅家 中環店","category":"買い物","note":"エッグタルト","mapQuery":"Tai Cheong Bakery Central 泰昌餅家","transitAfter":false},
-      {"time":"13:30","title":"文武廟","place":"文武廟","category":"観光","mapQuery":"Man Mo Temple Hong Kong","transitAfter":{"mode":"徒歩"}},
-      {"time":"14:00","title":"インスタ映え飲茶","place":"YUM CHA Central","category":"食事","mapQuery":"YUM CHA Central Hong Kong","transitAfter":{"mode":"地下鉄"}},
-      {"time":"15:15","title":"モンスターマンション","place":"Yick Cheong Building 益昌大廈","category":"観光","mapQuery":"Yick Cheong Building 益昌大廈","transitAfter":{"mode":"地下鉄"}},
-      {"time":"16:00","title":"地茂館甜品でおやつ","place":"Tei Mou Koon Dessert 地茂館甜品","category":"食事","note":"マンゴー白玉","mapQuery":"Tei Mou Koon Dessert 地茂館甜品","transitAfter":{"mode":"地下鉄"}},
-      {"time":"17:00","title":"大街小館でおやつ","place":"Big Sweet House 大街小館","category":"食事","note":"椰皇蛋白（ココナッツミルクと卵白の熱々プリン）","mapQuery":"Big Sweet House 大街小館 Hong Kong","transitAfter":{"mode":"地下鉄"}},
-      {"time":"18:00","title":"アベニュー・オブ・スターズ","place":"Avenue of Stars 星光大道","category":"観光","mapQuery":"Avenue of Stars Hong Kong","transitAfter":{"mode":"徒歩"}},
-      {"time":"18:30","title":"南海一號で夜ごはん","place":"南海一號 Nanhai No.1","category":"食事","note":"飲茶","mapQuery":"Nanhai No.1 Hong Kong","transitAfter":{"mode":"徒歩"}},
-      {"time":"20:00","title":"100万ドルの夜景","place":"香港文化センター","category":"観光","mapQuery":"Hong Kong Cultural Centre","transitAfter":{"mode":"地下鉄"}},
-      {"time":"20:30","title":"澳洲牛奶公司でおやつ","place":"Australia Dairy Company 澳洲牛奶公司","category":"食事","note":"牛乳プリン","mapQuery":"Australia Dairy Company Hong Kong","transitAfter":false},
-      {"time":"21:00","title":"佳佳甜品でおやつ","place":"Kai Kai Dessert 佳佳甜品","category":"食事","mapQuery":"Kai Kai Dessert 佳佳甜品","transitAfter":{"mode":"地下鉄"}},
-      {"time":"22:00","title":"ホテル着・チェックイン","place":"ディズニー・ハリウッド・ホテル","category":"宿泊","mapQuery":"Disney's Hollywood Hotel Hong Kong"}
+      {"time":"01:55","title":"羽田空港を離陸","place":"羽田空港 第3ターミナル","category":"移動","note":"HK Express 629。香港へ向かう深夜便で、到着後すぐに観光を始められる。","mapQuery":"羽田空港 第3ターミナル","transitAfter":false},
+      {"time":"06:15","title":"香港国際空港に到着","place":"香港国際空港（HKG）ターミナル1","category":"移動","note":"ランタオ島にある香港の空の玄関口。市街地へ鉄道・バス・タクシーで移動できる。","mapQuery":"Hong Kong International Airport Terminal 1","transitAfter":{"mode":"タクシー"}},
+      {"time":"07:15","title":"ホテル到着・荷物を預ける","place":"ディズニー・ハリウッド・ホテル","category":"宿泊","note":"クラシックなハリウッドを表現した、アールデコ調のディズニー公式ホテル。","mapQuery":"Disney's Hollywood Hotel Hong Kong","transitAfter":{"mode":"地下鉄"}},
+      {"time":"08:45","title":"新興食家で朝ごはん","place":"新興食家","category":"食事","note":"飲茶。蒸籠から直接運ばれる、作りたての点心を味わえる地元で人気の店。","mapQuery":"新興食家 Hong Kong","transitAfter":{"mode":"地下鉄"}},
+      {"time":"10:00","title":"ピークトラムと100万ドルの朝景","place":"ビクトリア・ピーク展望台","category":"観光","note":"1888年開業の歴史あるピークトラムで上り、香港の街並みとビクトリア・ハーバーを一望。","mapQuery":"Victoria Peak Hong Kong","transitAfter":{"mode":"徒歩"}},
+      {"time":"12:00","title":"沾仔記で昼ごはん","place":"Tsim Chai Kee Noodle 沾仔記","category":"食事","note":"ワンタンメン。大ぶりで弾力のある海老ワンタンと、奥深いスープで知られる人気店。","mapQuery":"Tsim Chai Kee Noodle 沾仔記","transitAfter":false},
+      {"time":"12:30","title":"一楽焼鵝でお肉","place":"一楽焼鵝","category":"食事","note":"1957年創業。20以上の工程を経て焼き上げる、香ばしいローストグースが名物。","mapQuery":"一楽焼鵝 Hong Kong","transitAfter":false},
+      {"time":"13:15","title":"エッグタルトを購入","place":"泰昌餅家 中環店","category":"買い物","note":"エッグタルト。1954年創業で、バター香るクッキー生地のエッグタルトが名物。","mapQuery":"Tai Cheong Bakery Central 泰昌餅家","transitAfter":false},
+      {"time":"13:30","title":"文武廟","place":"文武廟","category":"観光","note":"香港最古級の寺院の一つ。天井から下がる渦巻き線香が印象的な歴史建築。","mapQuery":"Man Mo Temple Hong Kong","transitAfter":{"mode":"徒歩"}},
+      {"time":"14:00","title":"インスタ映え飲茶","place":"YUM CHA Central","category":"食事","note":"動物をかたどった点心など、遊び心ある写真映えメニューで知られる創作飲茶店。","mapQuery":"YUM CHA Central Hong Kong","transitAfter":{"mode":"地下鉄"}},
+      {"time":"15:15","title":"モンスターマンション","place":"Yick Cheong Building 益昌大廈","category":"観光","note":"5棟の高層住宅が密集する迫力ある景観で知られる撮影スポット。生活空間なので静かに見学。","mapQuery":"Yick Cheong Building 益昌大廈","transitAfter":{"mode":"地下鉄"}},
+      {"time":"16:00","title":"地茂館甜品でおやつ","place":"Tei Mou Koon Dessert 地茂館甜品","category":"食事","note":"マンゴー白玉。1990年から広東式の糖水を提供し、マンゴーや白玉を使った甘味が人気。","mapQuery":"Tei Mou Koon Dessert 地茂館甜品","transitAfter":{"mode":"地下鉄"}},
+      {"time":"17:00","title":"大街小館でおやつ","place":"Big Sweet House 大街小館","category":"食事","note":"椰皇蛋白。ココナッツの器で卵白を蒸した、熱々でなめらかな香港スイーツ。","mapQuery":"Big Sweet House 大街小館 Hong Kong","transitAfter":{"mode":"地下鉄"}},
+      {"time":"18:00","title":"アベニュー・オブ・スターズ","place":"Avenue of Stars 星光大道","category":"観光","note":"香港映画をたたえる海沿いの遊歩道。ブルース・リー像や俳優の手形と夜景を楽しめる。","mapQuery":"Avenue of Stars Hong Kong","transitAfter":{"mode":"徒歩"}},
+      {"time":"18:30","title":"南海一號で夜ごはん","place":"南海一號 Nanhai No.1","category":"食事","note":"ビクトリア・ハーバーを見渡す高層階で、現代的に仕立てた広東料理と点心を楽しめる。","mapQuery":"Nanhai No.1 Hong Kong","transitAfter":{"mode":"徒歩"}},
+      {"time":"20:00","title":"100万ドルの夜景","place":"香港文化センター","category":"観光","note":"尖沙咀の海沿いから、ビクトリア・ハーバー越しに香港島の光る摩天楼を一望できる。","mapQuery":"Hong Kong Cultural Centre","transitAfter":{"mode":"地下鉄"}},
+      {"time":"20:30","title":"澳洲牛奶公司でおやつ","place":"Australia Dairy Company 澳洲牛奶公司","category":"食事","note":"牛乳プリン。1970年創業の茶餐廳で、なめらかなミルクプリンと炒り卵が名物。","mapQuery":"Australia Dairy Company Hong Kong","transitAfter":false},
+      {"time":"21:00","title":"佳佳甜品でおやつ","place":"Kai Kai Dessert 佳佳甜品","category":"食事","note":"40年以上続く糖水の人気店。濃厚な黒ごま汁粉や杏仁汁粉など伝統的な甘味を楽しめる。","mapQuery":"Kai Kai Dessert 佳佳甜品","transitAfter":{"mode":"地下鉄"}},
+      {"time":"22:00","title":"ホテル着・チェックイン","place":"ディズニー・ハリウッド・ホテル","category":"宿泊","note":"映画黄金期を思わせるアールデコ空間で、翌日のディズニーに備えて休める公式ホテル。","mapQuery":"Disney's Hollywood Hotel Hong Kong"}
     ]},
     {"date":"2026-11-09","theme":"香港ディズニーランド","events":[
-      {"time":"08:30","title":"ホテル出発・チェックアウト","place":"ディズニー・ハリウッド・ホテル","category":"宿泊","mapQuery":"Disney's Hollywood Hotel Hong Kong","transitAfter":{"mode":"シャトルバス"}},
-      {"time":"09:30","title":"香港ディズニーランド入園","place":"香港ディズニーランド","category":"観光","mapQuery":"Hong Kong Disneyland","transitAfter":false},
-      {"time":"20:00","title":"香港ディズニーランド退園","place":"香港ディズニーランド","category":"観光","mapQuery":"Hong Kong Disneyland","transitAfter":{"mode":"タクシー"}},
-      {"time":"21:00","title":"香港国際空港に到着","place":"香港国際空港（HKG）","category":"移動","mapQuery":"Hong Kong International Airport","transitAfter":false},
-      {"time":"21:30","title":"フードコートで夜ごはん","place":"香港国際空港 フードコート","category":"食事","mapQuery":"Hong Kong International Airport food court"}
+      {"time":"08:30","title":"ホテル出発・チェックアウト","place":"ディズニー・ハリウッド・ホテル","category":"宿泊","note":"宿泊者向け無料シャトルバスで、ホテルからパークへ移動できる。","mapQuery":"Disney's Hollywood Hotel Hong Kong","transitAfter":{"mode":"シャトルバス"}},
+      {"time":"09:30","title":"香港ディズニーランド入園","place":"香港ディズニーランド","category":"観光","note":"『ワールド・オブ・フローズン』を含む8つのテーマエリアを楽しめるディズニーリゾート。","mapQuery":"Hong Kong Disneyland","transitAfter":false},
+      {"time":"20:00","title":"香港ディズニーランド退園","place":"香港ディズニーランド","category":"観光","note":"香港ならではのアトラクションやショーが集まるパーク。退園前に忘れ物を確認。","mapQuery":"Hong Kong Disneyland","transitAfter":{"mode":"タクシー"}},
+      {"time":"21:00","title":"香港国際空港に到着","place":"香港国際空港（HKG）","category":"移動","note":"ショップや飲食店が充実した国際ハブ空港。出発ターミナルを確認して移動。","mapQuery":"Hong Kong International Airport","transitAfter":false},
+      {"time":"21:30","title":"フードコートで夜ごはん","place":"香港国際空港 フードコート","category":"食事","note":"香港料理から手軽な軽食まで選べる、出発前に利用しやすい空港内の飲食エリア。","mapQuery":"Hong Kong International Airport food court"}
     ]},
     {"date":"2026-11-10","theme":"帰国","events":[
-      {"time":"02:00","title":"香港国際空港を離陸","place":"香港国際空港（HKG）ターミナル2","category":"移動","note":"HK Express 854","mapQuery":"Hong Kong International Airport Terminal 2","transitAfter":false},
-      {"time":"06:55","title":"成田国際空港に到着","place":"成田国際空港（NRT）ターミナル2","category":"移動","mapQuery":"成田国際空港 第2ターミナル"}
+      {"time":"02:00","title":"香港国際空港を離陸","place":"香港国際空港（HKG）ターミナル2","category":"移動","note":"HK Express 854。深夜に香港を出発し、朝に成田へ到着する帰国便。","mapQuery":"Hong Kong International Airport Terminal 2","transitAfter":false},
+      {"time":"06:55","title":"成田国際空港に到着","place":"成田国際空港（NRT）ターミナル2","category":"移動","note":"国内各地への鉄道・バスが発着する国際線ターミナル。入国後は荷物を忘れずに確認。","mapQuery":"成田国際空港 第2ターミナル"}
     ]}
   ],
   "candidateSpots": [
