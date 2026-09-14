@@ -40,21 +40,21 @@
     ]}
   ],
   "candidateSpots": [
-    {"name":"Bakehouse","area":"中環・上環","category":"グルメ","url":"https://maps.app.goo.gl/TDoXpV4rc49dHVK88"},
-    {"name":"一点心（中環）","area":"中環","category":"グルメ","url":"https://maps.app.goo.gl/kuGZD6WNAcpb2U1z7"},
-    {"name":"麥奀雲吞麵世家","area":"中環","category":"グルメ","url":"https://maps.app.goo.gl/V4P3wfGsEnjWWq4aA"},
-    {"name":"Luk On Kui","area":"西營盤・上環","category":"グルメ","url":"https://maps.app.goo.gl/3bnKHA2Giz4RS2Ku8"},
-    {"name":"興記雲呑麵","area":"湾仔","category":"グルメ","url":"https://maps.app.goo.gl/tprCH8xnSUSnYwNp9"},
-    {"name":"一蘭 香港尖沙咀店","area":"尖沙咀","category":"グルメ","url":"https://maps.app.goo.gl/aAAbsNPh7fYvKykJA"},
-    {"name":"重慶大厦","area":"尖沙咀","category":"観光","url":"https://maps.app.goo.gl/qKfJ8JV6YQ59zPfb7"},
-    {"name":"One Dim Sum","area":"尖沙咀・佐敦","category":"グルメ","url":"https://maps.app.goo.gl/5cPC2es7Ba7KHd31A"},
-    {"name":"麥文記麵家","area":"佐敦","category":"グルメ","url":"https://maps.app.goo.gl/LvRZdQC2VAkxyyhW6"},
-    {"name":"彩虹邨天台球場","area":"彩虹","category":"観光","url":"https://maps.app.goo.gl/xgrsRPtTPM198BTo6"},
-    {"name":"一点心（太子）","area":"太子","category":"グルメ","url":"https://maps.app.goo.gl/oEWZwRbtR9ejBJRE7"},
-    {"name":"中央飯店","area":"深水埗","category":"グルメ","url":"https://maps.app.goo.gl/iPMkqr1vko7wc1km6"},
-    {"name":"劉森記麵家","area":"深水埗","category":"グルメ","url":"https://maps.app.goo.gl/VYm5rDxMQfRzGP2o6"},
-    {"name":"Shum Shum Desserts","area":"深水埗","category":"グルメ","url":"https://maps.app.goo.gl/gL73JiADk9RakY1p9"},
-    {"name":"綠林甜品","area":"深水埗","category":"グルメ","url":"https://maps.app.goo.gl/rHJ9EJAL8PGfbHwZA"}
+    {"name":"Bakehouse","area":"中環・上環","category":"グルメ","description":"サワードウを使った香ばしいエッグタルトで知られる、香港発の人気ベーカリー。","url":"https://maps.app.goo.gl/TDoXpV4rc49dHVK88"},
+    {"name":"一点心（中環）","area":"中環","category":"グルメ","description":"蒸したての点心を気軽に楽しめる、中環のカジュアルな飲茶店。","url":"https://maps.app.goo.gl/kuGZD6WNAcpb2U1z7"},
+    {"name":"麥奀雲吞麵世家","area":"中環","category":"グルメ","description":"弾力のある細麺と澄んだスープ、小ぶりな雲呑麺で知られる老舗麺店。","url":"https://maps.app.goo.gl/V4P3wfGsEnjWWq4aA"},
+    {"name":"Luk On Kui","area":"西營盤・上環","category":"グルメ","description":"昔ながらの香港らしい雰囲気で、伝統的な点心の朝食を味わえる茶楼。","url":"https://maps.app.goo.gl/3bnKHA2Giz4RS2Ku8"},
+    {"name":"興記雲呑麵","area":"湾仔","category":"グルメ","description":"湾仔で地元の日常に溶け込む、手頃な雲呑麺を楽しめる麺店。","url":"https://maps.app.goo.gl/tprCH8xnSUSnYwNp9"},
+    {"name":"一蘭 香港尖沙咀店","area":"尖沙咀","category":"グルメ","description":"天然とんこつラーメンに特化した一蘭の香港店。カウンター席とテーブル席がある。","url":"https://maps.app.goo.gl/aAAbsNPh7fYvKykJA"},
+    {"name":"重慶大厦","area":"尖沙咀","category":"観光","description":"多国籍な飲食店や商店が集まる都市の迷宮。映画『恋する惑星』の舞台としても有名。","url":"https://maps.app.goo.gl/qKfJ8JV6YQ59zPfb7"},
+    {"name":"One Dim Sum","area":"尖沙咀・佐敦","category":"グルメ","description":"海老餃子や焼売など、香港の定番点心をカジュアルに味わえる飲茶店。","url":"https://maps.app.goo.gl/5cPC2es7Ba7KHd31A"},
+    {"name":"麥文記麵家","area":"佐敦","category":"グルメ","description":"1958年創業。海老雲呑と歯ごたえのある鴨卵麺で知られる麺の老舗。","url":"https://maps.app.goo.gl/LvRZdQC2VAkxyyhW6"},
+    {"name":"彩虹邨天台球場","area":"彩虹","category":"観光","description":"パステルカラーの集合住宅を背景に撮影できる、駐車場屋上の人気フォトスポット。","url":"https://maps.app.goo.gl/xgrsRPtTPM198BTo6"},
+    {"name":"一点心（太子）","area":"太子","category":"グルメ","description":"2007年に太子で創業した点心専門店。活気ある香港らしい飲茶を楽しめる。","url":"https://maps.app.goo.gl/oEWZwRbtR9ejBJRE7"},
+    {"name":"中央飯店","area":"深水埗","category":"グルメ","description":"60年以上続く昔ながらの茶楼。手押しワゴンで運ばれる点心文化が残る。","url":"https://maps.app.goo.gl/iPMkqr1vko7wc1km6"},
+    {"name":"劉森記麵家","area":"深水埗","category":"グルメ","description":"竹昇麺と海老の卵をまぶした撈麺で知られる、深水埗の老舗麺店。","url":"https://maps.app.goo.gl/VYm5rDxMQfRzGP2o6"},
+    {"name":"Shum Shum Desserts","area":"深水埗","category":"グルメ","description":"胡麻のお汁粉や豆花、芋圓などを揃える、地元で人気の香港式スイーツ店。","url":"https://maps.app.goo.gl/gL73JiADk9RakY1p9"},
+    {"name":"綠林甜品","area":"深水埗","category":"グルメ","description":"1984年創業。伝統的な糖水から豆腐プリンまで幅広く楽しめる老舗甘味店。","url":"https://maps.app.goo.gl/rHJ9EJAL8PGfbHwZA"}
   ],
   "travelInfo": {
     "flights": [

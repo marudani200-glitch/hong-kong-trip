@@ -70,12 +70,12 @@ function renderInfo() {
 function renderSpots(){
   if(location.hash!=='#spots')history.pushState(null,'','#spots');
   const spots=trip.candidateSpots||[];
-  app.innerHTML=shell(`<section class="spots-intro"><div><p class="eyebrow">EXTRA SPOTS</p><h1>候補スポット</h1><p>時間があったら訪れたい場所</p></div><strong>${spots.length}<small> SPOTS</small></strong></section><div class="spot-filters" role="group" aria-label="カテゴリーで絞り込み"><button class="selected" data-filter="すべて">すべて</button><button data-filter="観光">観光</button><button data-filter="グルメ">グルメ</button></div><section class="spot-grid">${spots.map((s,i)=>`<article class="spot-card" data-spot-category="${s.category}"><div class="spot-number">${String(i+1).padStart(2,'0')}</div><div class="spot-copy"><span class="spot-category cat-${s.category}">${s.category==='観光'?iconSvg('star'):iconSvg('food')} ${s.category}</span><h2>${esc(s.name)}</h2><p>${iconSvg('pin')} ${esc(s.area)}</p></div><a href="${s.url}" target="_blank" rel="noopener" aria-label="${esc(s.name)}をGoogleマップで開く">↗</a></article>`).join('')}</section>`);
+  app.innerHTML=shell(`<section class="spots-intro"><h1>その他候補スポット</h1></section><div class="spot-filters" role="group" aria-label="カテゴリーで絞り込み"><button class="selected" data-filter="すべて">すべて</button><button data-filter="観光">観光</button><button data-filter="グルメ">グルメ</button></div><section class="spot-grid">${spots.map(s=>`<article class="spot-card" data-spot data-spot-category="${s.category}"><button class="spot-summary" aria-expanded="false"><div class="spot-copy"><span class="spot-category cat-${s.category}">${s.category==='観光'?iconSvg('star'):iconSvg('food')} ${s.category}</span><h2>${esc(s.name)}</h2><p>${iconSvg('pin')} ${esc(s.area)}</p></div><span class="spot-chevron">⌄</span></button><div class="spot-detail"><div><p>${esc(s.description)}</p><a href="${s.url}" target="_blank" rel="noopener">Googleマップを開く ↗</a></div></div></article>`).join('')}</section>`);
 }
 
 function renderSettings(){
   if(location.hash!=='#settings')history.pushState(null,'','#settings');
-  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.7<br>旅程更新日：2026年9月14日</p></article></section>`);
+  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.8<br>旅程更新日：2026年9月14日</p></article></section>`);
   renderInstall();
 }
 
@@ -97,13 +97,14 @@ function showInstallModal(){
 }
 
 document.addEventListener('click',async e=>{
-  const t=e.target.closest('[data-home],[data-date],[data-info],[data-spots],[data-settings],[data-filter],[data-event],[data-transit],[data-copy],[data-install],[data-dismiss],[data-close-install]'); if(!t)return;
+  const t=e.target.closest('[data-home],[data-date],[data-info],[data-spots],[data-settings],[data-filter],[data-spot],[data-event],[data-transit],[data-copy],[data-install],[data-dismiss],[data-close-install]'); if(!t)return;
   if(t.matches('[data-home]')) smoothRender(renderHome);
   else if(t.dataset.date) smoothRender(()=>renderDay(t.dataset.date));
   else if(t.matches('[data-info]')) smoothRender(renderInfo);
   else if(t.matches('[data-spots]')) smoothRender(renderSpots);
   else if(t.matches('[data-settings]')) smoothRender(renderSettings);
   else if(t.matches('[data-filter]')){document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('selected',b===t));document.querySelectorAll('[data-spot-category]').forEach(card=>card.hidden=t.dataset.filter!=='すべて'&&card.dataset.spotCategory!==t.dataset.filter);}
+  else if(t.matches('[data-spot]')){if(e.target.closest('a'))return;const b=t.querySelector('.spot-summary');t.classList.toggle('open');b.setAttribute('aria-expanded',t.classList.contains('open'));}
   else if(t.matches('[data-event]')) {const b=t.querySelector('.event-summary'); if(e.target.closest('a,[data-copy]'))return; t.classList.toggle('open'); b.setAttribute('aria-expanded',t.classList.contains('open'));}
   else if(t.matches('[data-transit]')) {const b=t.querySelector('.transit-summary');t.classList.toggle('open');b.setAttribute('aria-expanded',t.classList.contains('open'));}
   else if(t.dataset.copy!==undefined){await navigator.clipboard.writeText(t.dataset.copy);showToast('コピーしました');}
