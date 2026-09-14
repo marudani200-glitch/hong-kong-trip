@@ -17,16 +17,15 @@ function countdown() {
 }
 
 function shell(content, back=false) {
-  return `<header class="topbar">${back?'<button class="icon-btn" data-home aria-label="日付一覧へ戻る">‹</button>':'<img class="bao-mini" src="assets/icons/icon-192.png" alt="">'}<div class="brand-wrap"><span class="brand">香港旅行</span><small>2026年11月7日 − 2026年11月10日</small></div><span class="top-spacer"></span></header><main>${content}</main>`;
+  const hash=location.hash.slice(1), active=hash==='info'?'info':hash==='settings'?'settings':'home';
+  return `<header class="topbar">${back?'<button class="icon-btn" data-home aria-label="日付一覧へ戻る">‹</button>':'<span class="header-spacer"></span>'}<div class="brand-wrap"><span class="brand">香港旅行</span><small>2026年11月7日 − 2026年11月10日</small></div><span class="top-spacer"></span></header><main>${content}</main><nav class="bottom-tabs" aria-label="メインメニュー"><button data-home class="${active==='home'?'selected':''}"><span>⌂</span>ホーム</button><button data-info class="${active==='info'?'selected':''}"><span>i</span>基本情報</button><button data-settings class="${active==='settings'?'selected':''}"><span>⚙︎</span>設定</button></nav>`;
 }
 
 function renderHome() {
   location.hash='';
-  app.innerHTML=shell(`<section class="hero"><p class="eyebrow">HONG KONG · 2026</p><h1>夜景と美食を<br><em>めぐる4日間。</em></h1><div class="countdown"><span class="pulse"></span>${countdown()}</div></section>
-  <section class="home-grid"><button class="info-card" data-info><span class="card-icon">i</span><span><small>旅の基本情報</small><strong>フライト・ホテル・緊急連絡先</strong></span><b>›</b></button>
-  ${trip.days.map((d,i)=>`<button class="day-card" data-date="${d.date}"><span class="day-number">0${i+1}</span><span class="date"><small>${jpDate(d.date).split('(')[0]}</small><strong>${esc(d.theme)}</strong></span><span class="arrow">↗</span></button>`).join('')}</section>
-  <section id="install-area"></section><footer>2026.11.07 — 11.10 · HONG KONG</footer>`);
-  renderInstall();
+  app.innerHTML=shell(`<section class="hero home-hero"><div class="countdown"><span class="pulse"></span>${countdown()}</div></section>
+  <section class="home-grid">${trip.days.map(d=>`<button class="day-card" data-date="${d.date}"><span class="date"><small>${jpDate(d.date).split('(')[0]}</small><strong>${esc(d.theme)}</strong></span><span class="arrow">↗</span></button>`).join('')}</section>
+  <footer>2026.11.07 — 11.10 · HONG KONG</footer>`);
 }
 
 function eventStatus(day, index) {
@@ -54,17 +53,25 @@ function renderInfo() {
   <section class="info-section emergency"><h2>緊急連絡先</h2>${info.emergency.map(e=>`<article class="detail-card"><div><h3>${e.name}</h3><p>${e.note}</p>${e.address?`<p>${e.address}</p>`:''}</div><div class="actions"><a href="tel:${e.phone.replace(/\s/g,'')}">${e.phone} に電話</a><button data-copy="${e.phone}">番号をコピー</button></div></article>`).join('')}<p class="source-note">連絡先は香港政府・在香港日本国総領事館の公式情報を参照（2026年9月確認）</p></section>`,true);
 }
 
+function renderSettings(){
+  location.hash='settings';
+  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.1<br>旅程更新日：2026年9月14日</p></article></section>`);
+  renderInstall();
+}
+
 function renderInstall(){
-  if(matchMedia('(display-mode: standalone)').matches||localStorage.installDismissed) return;
+  const area=document.querySelector('#install-area'); if(!area)return;
+  if(matchMedia('(display-mode: standalone)').matches){area.innerHTML='<div class="installed-state">✓ ホーム画面に追加済みです</div>';return;}
   const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
-  document.querySelector('#install-area').innerHTML=`<div class="install-card"><div><strong>ホーム画面に追加</strong><p>${ios?'Safariの共有ボタンから「ホーム画面に追加」を選びます。':'アプリとして追加すると、オフラインでもすぐに開けます。'}</p></div>${deferredInstall?'<button data-install>追加</button>':''}<button class="dismiss" data-dismiss aria-label="閉じる">×</button></div>`;
+  area.innerHTML=`<div class="install-card"><div><p>${ios?'Safariの共有ボタンから「ホーム画面に追加」を選びます。':'アプリとして追加すると、オフラインでもすぐに開けます。'}</p></div>${deferredInstall?'<button data-install>追加</button>':''}</div>`;
 }
 
 document.addEventListener('click',async e=>{
-  const t=e.target.closest('[data-home],[data-date],[data-info],[data-event],[data-copy],[data-install],[data-dismiss]'); if(!t)return;
+  const t=e.target.closest('[data-home],[data-date],[data-info],[data-settings],[data-event],[data-copy],[data-install],[data-dismiss]'); if(!t)return;
   if(t.matches('[data-home]')) renderHome();
   else if(t.dataset.date) renderDay(t.dataset.date);
   else if(t.matches('[data-info]')) renderInfo();
+  else if(t.matches('[data-settings]')) renderSettings();
   else if(t.matches('[data-event]')) {const b=t.querySelector('.event-summary'); if(e.target.closest('a,[data-copy]'))return; t.classList.toggle('open'); b.setAttribute('aria-expanded',t.classList.contains('open'));}
   else if(t.dataset.copy!==undefined){await navigator.clipboard.writeText(t.dataset.copy);showToast('コピーしました');}
   else if(t.matches('[data-install]')){deferredInstall.prompt(); await deferredInstall.userChoice; deferredInstall=null;renderInstall();}
@@ -73,7 +80,7 @@ document.addEventListener('click',async e=>{
 
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;renderInstall();});
 window.addEventListener('hashchange',route);
-function route(){const h=location.hash.slice(1);if(h==='info')renderInfo();else if(h.startsWith('day='))renderDay(h.slice(4));else renderHome();}
+function route(){const h=location.hash.slice(1);if(h==='info')renderInfo();else if(h==='settings')renderSettings();else if(h.startsWith('day='))renderDay(h.slice(4));else renderHome();}
 
 async function init(){try{trip=await fetch('trip-data.json').then(r=>{if(!r.ok)throw Error();return r.json()});route();setInterval(()=>{if(location.hash.startsWith('#day='))renderDay(location.hash.slice(5));},60000);}catch{app.innerHTML='<main class="error"><h1>旅程を読み込めませんでした</h1><p>通信状態を確認して、もう一度開いてください。</p></main>';}}
 
