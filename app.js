@@ -67,18 +67,13 @@ function renderInfo() {
   <section class="info-section emergency"><h2>緊急連絡先</h2>${info.emergency.map(e=>`<article class="detail-card"><div><h3>${e.name}</h3><p>${e.note}</p>${e.address?`<p>${e.address}</p>`:''}</div><div class="actions"><a href="tel:${e.phone.replace(/\s/g,'')}">${e.phone} に電話</a><button data-copy="${e.phone}">番号をコピー</button></div></article>`).join('')}<p class="source-note">連絡先は香港政府・在香港日本国総領事館の公式情報を参照（2026年9月確認）</p></section>`);
 }
 
-const prepGroups=[
-  {title:'予約・書類',items:['パスポートの有効期限を確認','海外旅行保険に加入']},
-  {title:'通信・お金',items:['香港で使えるeSIMまたはローミングを準備','クレジットカードの海外利用設定を確認','現金と交通系ICカード用の予算を用意']},
-  {title:'持ち物・端末',items:['変換プラグ（BFタイプ）を用意','常備薬・雨具・歩きやすい靴を準備','パスポート紛失時用のコピーを別に保管','荷物を座席下に収まるバッグ1つにまとめる','荷物を7kg以内に収める']},
-  {title:'出発直前',items:['オンラインチェックインを確認','香港の天気と服装を確認','空港までの交通手段と終電を確認']}
-];
+const prepItems=['香港で使えるeSIMまたはローミングを準備','変換プラグ（BFタイプ）を用意','荷物を座席下に収まるバッグ1つにまとめる','荷物を7kg以内に収める','パスポート+スマホ+クレカ絶対忘れずに','パスポート紛失時用のコピーを別に保管'];
 
-function prepState(){try{return JSON.parse(localStorage.hkPrepV2||'{}')}catch{return{}}}
+function prepState(){try{return JSON.parse(localStorage.hkPrepV3||'{}')}catch{return{}}}
 function renderPrep(){
   if(location.hash!=='#prep')history.pushState(null,'','#prep');
-  const state=prepState(),total=prepGroups.reduce((n,g)=>n+g.items.length,0),done=Object.values(state).filter(Boolean).length;
-  app.innerHTML=shell(`<section class="prep-heading"><div><h1>旅行前の準備</h1><p>出発までに済ませること</p></div><strong><span data-prep-done>${done}</span> / ${total}</strong></section><div class="prep-progress"><span style="width:${done/total*100}%" data-prep-progress></span></div><section class="prep-groups">${prepGroups.map((g,gi)=>`<article class="prep-group"><h2>${g.title}</h2>${g.items.map((item,ii)=>{const id=`${gi}-${ii}`;return`<label class="prep-item${state[id]?' checked':''}"><input type="checkbox" data-prep-check="${id}" ${state[id]?'checked':''}><span class="prep-checkmark">✓</span><span>${item}</span></label>`}).join('')}</article>`).join('')}</section>`);
+  const state=prepState(),total=prepItems.length,done=Object.values(state).filter(Boolean).length;
+  app.innerHTML=shell(`<section class="prep-heading"><h1>チェックリスト</h1><strong><span data-prep-done>${done}</span> / ${total}</strong></section><div class="prep-progress"><span style="width:${done/total*100}%" data-prep-progress></span></div><section class="prep-groups"><article class="prep-group">${prepItems.map((item,i)=>`<label class="prep-item${state[i]?' checked':''}"><input type="checkbox" data-prep-check="${i}" ${state[i]?'checked':''}><span class="prep-checkmark">✓</span><span>${item}</span></label>`).join('')}</article></section>`);
 }
 
 function renderSpots(){
@@ -89,7 +84,7 @@ function renderSpots(){
 
 function renderSettings(){
   if(location.hash!=='#settings')history.pushState(null,'','#settings');
-  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.10<br>旅程更新日：2026年9月14日</p></article></section>`);
+  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.11<br>旅程更新日：2026年9月14日</p></article></section>`);
   renderInstall();
 }
 
@@ -128,7 +123,7 @@ document.addEventListener('click',async e=>{
   else {localStorage.installDismissed='1';document.querySelector('#install-area').innerHTML='';}
 });
 
-document.addEventListener('change',e=>{if(!e.target.matches('[data-prep-check]'))return;const state=prepState();state[e.target.dataset.prepCheck]=e.target.checked;localStorage.hkPrepV2=JSON.stringify(state);e.target.closest('.prep-item').classList.toggle('checked',e.target.checked);const total=prepGroups.reduce((n,g)=>n+g.items.length,0),done=Object.values(state).filter(Boolean).length;document.querySelector('[data-prep-done]').textContent=done;document.querySelector('[data-prep-progress]').style.width=`${done/total*100}%`;});
+document.addEventListener('change',e=>{if(!e.target.matches('[data-prep-check]'))return;const state=prepState();state[e.target.dataset.prepCheck]=e.target.checked;localStorage.hkPrepV3=JSON.stringify(state);e.target.closest('.prep-item').classList.toggle('checked',e.target.checked);const total=prepItems.length,done=Object.values(state).filter(Boolean).length;document.querySelector('[data-prep-done]').textContent=done;document.querySelector('[data-prep-progress]').style.width=`${done/total*100}%`;});
 
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;renderInstall();const dialog=document.querySelector('.install-dialog');if(dialog&&!dialog.querySelector('[data-install]')){const button=document.createElement('button');button.className='modal-install-button';button.dataset.install='';button.textContent='ホーム画面に追加';dialog.querySelector('.modal-later').before(button);}});
 window.addEventListener('popstate',route);
