@@ -39,6 +39,23 @@
       {"time":"06:55","title":"成田国際空港に到着","place":"成田国際空港（NRT）ターミナル2","category":"移動","mapQuery":"成田国際空港 第2ターミナル"}
     ]}
   ],
+  "candidateSpots": [
+    {"name":"Bakehouse","area":"中環・上環","category":"グルメ","url":"https://maps.app.goo.gl/TDoXpV4rc49dHVK88"},
+    {"name":"一点心（中環）","area":"中環","category":"グルメ","url":"https://maps.app.goo.gl/kuGZD6WNAcpb2U1z7"},
+    {"name":"麥奀雲吞麵世家","area":"中環","category":"グルメ","url":"https://maps.app.goo.gl/V4P3wfGsEnjWWq4aA"},
+    {"name":"Luk On Kui","area":"西營盤・上環","category":"グルメ","url":"https://maps.app.goo.gl/3bnKHA2Giz4RS2Ku8"},
+    {"name":"興記雲呑麵","area":"湾仔","category":"グルメ","url":"https://maps.app.goo.gl/tprCH8xnSUSnYwNp9"},
+    {"name":"一蘭 香港尖沙咀店","area":"尖沙咀","category":"グルメ","url":"https://maps.app.goo.gl/aAAbsNPh7fYvKykJA"},
+    {"name":"重慶大厦","area":"尖沙咀","category":"観光","url":"https://maps.app.goo.gl/qKfJ8JV6YQ59zPfb7"},
+    {"name":"One Dim Sum","area":"尖沙咀・佐敦","category":"グルメ","url":"https://maps.app.goo.gl/5cPC2es7Ba7KHd31A"},
+    {"name":"麥文記麵家","area":"佐敦","category":"グルメ","url":"https://maps.app.goo.gl/LvRZdQC2VAkxyyhW6"},
+    {"name":"彩虹邨天台球場","area":"彩虹","category":"観光","url":"https://maps.app.goo.gl/xgrsRPtTPM198BTo6"},
+    {"name":"一点心（太子）","area":"太子","category":"グルメ","url":"https://maps.app.goo.gl/oEWZwRbtR9ejBJRE7"},
+    {"name":"中央飯店","area":"深水埗","category":"グルメ","url":"https://maps.app.goo.gl/iPMkqr1vko7wc1km6"},
+    {"name":"劉森記麵家","area":"深水埗","category":"グルメ","url":"https://maps.app.goo.gl/VYm5rDxMQfRzGP2o6"},
+    {"name":"Shum Shum Desserts","area":"深水埗","category":"グルメ","url":"https://maps.app.goo.gl/gL73JiADk9RakY1p9"},
+    {"name":"綠林甜品","area":"深水埗","category":"グルメ","url":"https://maps.app.goo.gl/rHJ9EJAL8PGfbHwZA"}
+  ],
   "travelInfo": {
     "flights": [
       {"label":"往路","number":"HK Express 629","route":"羽田 → 香港","depart":"11月8日 01:55｜羽田 第3ターミナル","arrive":"11月8日 06:15｜香港 第1ターミナル"},
