@@ -8,7 +8,7 @@
     ]},
     {"date":"2026-11-08","theme":"香港島観光とグルメ巡り","events":[
       {"time":"01:55","title":"羽田空港を離陸","place":"羽田空港 第3ターミナル","category":"移動","note":"HK Express 629","mapQuery":"羽田空港 第3ターミナル"},
-      {"time":"06:15","title":"香港国際空港に到着","place":"香港国際空港（HKG）ターミナル1","category":"移動","mapQuery":"Hong Kong International Airport Terminal 1"},
+      {"time":"06:15","title":"香港国際空港に到着","place":"香港国際空港（HKG）ターミナル1","category":"移動","mapQuery":"Hong Kong International Airport Terminal 1","transitAfter":{"mode":"タクシー"}},
       {"time":"07:15","title":"ホテル到着・荷物を預ける","place":"ディズニー・ハリウッド・ホテル","category":"宿泊","mapQuery":"Disney's Hollywood Hotel Hong Kong"},
       {"time":"08:45","title":"生記粥品專家で朝ごはん","place":"Sang Kee Congee Shop 生記粥品專家","category":"食事","note":"お粥が有名","mapQuery":"Sang Kee Congee Shop 生記粥品專家 Hong Kong"},
       {"time":"09:45","title":"ピークトラムと100万ドルの朝景","place":"ビクトリア・ピーク展望台","category":"観光","note":"ピークトラムに乗って展望台へ","mapQuery":"Victoria Peak Hong Kong"},
