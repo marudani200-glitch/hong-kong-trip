@@ -68,13 +68,13 @@ function renderInfo() {
 }
 
 const prepGroups=[
-  {title:'予約・書類',items:['パスポートの有効期限を確認','航空券とホテルの予約内容を確認','海外旅行保険に加入','航空券・ホテル情報をオフライン保存']},
-  {title:'通信・お金',items:['香港で使えるeSIMまたはローミングを準備','クレジットカードの海外利用設定を確認','現金と交通系ICカード用の予算を用意','Googleマップの香港エリアをオフライン保存']},
-  {title:'持ち物・端末',items:['変換プラグ（BFタイプ）を用意','モバイルバッテリーと充電ケーブルを用意','常備薬・雨具・歩きやすい靴を準備','パスポート紛失時用のコピーを別に保管']},
-  {title:'出発直前',items:['オンラインチェックインを確認','香港の天気と服装を確認','空港までの交通手段と終電を確認','家族へ旅程と緊急連絡先を共有']}
+  {title:'予約・書類',items:['パスポートの有効期限を確認','海外旅行保険に加入']},
+  {title:'通信・お金',items:['香港で使えるeSIMまたはローミングを準備','クレジットカードの海外利用設定を確認','現金と交通系ICカード用の予算を用意']},
+  {title:'持ち物・端末',items:['変換プラグ（BFタイプ）を用意','常備薬・雨具・歩きやすい靴を準備','パスポート紛失時用のコピーを別に保管','荷物を座席下に収まるバッグ1つにまとめる','荷物を7kg以内に収める']},
+  {title:'出発直前',items:['オンラインチェックインを確認','香港の天気と服装を確認','空港までの交通手段と終電を確認']}
 ];
 
-function prepState(){try{return JSON.parse(localStorage.hkPrep||'{}')}catch{return{}}}
+function prepState(){try{return JSON.parse(localStorage.hkPrepV2||'{}')}catch{return{}}}
 function renderPrep(){
   if(location.hash!=='#prep')history.pushState(null,'','#prep');
   const state=prepState(),total=prepGroups.reduce((n,g)=>n+g.items.length,0),done=Object.values(state).filter(Boolean).length;
@@ -89,7 +89,7 @@ function renderSpots(){
 
 function renderSettings(){
   if(location.hash!=='#settings')history.pushState(null,'','#settings');
-  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.9<br>旅程更新日：2026年9月14日</p></article></section>`);
+  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.10<br>旅程更新日：2026年9月14日</p></article></section>`);
   renderInstall();
 }
 
@@ -128,7 +128,7 @@ document.addEventListener('click',async e=>{
   else {localStorage.installDismissed='1';document.querySelector('#install-area').innerHTML='';}
 });
 
-document.addEventListener('change',e=>{if(!e.target.matches('[data-prep-check]'))return;const state=prepState();state[e.target.dataset.prepCheck]=e.target.checked;localStorage.hkPrep=JSON.stringify(state);e.target.closest('.prep-item').classList.toggle('checked',e.target.checked);const total=prepGroups.reduce((n,g)=>n+g.items.length,0),done=Object.values(state).filter(Boolean).length;document.querySelector('[data-prep-done]').textContent=done;document.querySelector('[data-prep-progress]').style.width=`${done/total*100}%`;});
+document.addEventListener('change',e=>{if(!e.target.matches('[data-prep-check]'))return;const state=prepState();state[e.target.dataset.prepCheck]=e.target.checked;localStorage.hkPrepV2=JSON.stringify(state);e.target.closest('.prep-item').classList.toggle('checked',e.target.checked);const total=prepGroups.reduce((n,g)=>n+g.items.length,0),done=Object.values(state).filter(Boolean).length;document.querySelector('[data-prep-done]').textContent=done;document.querySelector('[data-prep-progress]').style.width=`${done/total*100}%`;});
 
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;renderInstall();const dialog=document.querySelector('.install-dialog');if(dialog&&!dialog.querySelector('[data-install]')){const button=document.createElement('button');button.className='modal-install-button';button.dataset.install='';button.textContent='ホーム画面に追加';dialog.querySelector('.modal-later').before(button);}});
 window.addEventListener('popstate',route);
