@@ -68,7 +68,7 @@ function renderInfo() {
 
 function renderSettings(){
   if(location.hash!=='#settings')history.pushState(null,'','#settings');
-  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.5<br>旅程更新日：2026年9月14日</p></article></section>`);
+  app.innerHTML=shell(`<section class="page-heading settings-heading"><div><h1>設定</h1><p>アプリとオフライン利用について</p></div></section><section class="settings-list"><article class="detail-card"><div class="detail-label">INSTALL</div><h3>ホーム画面に追加</h3><p>ホーム画面からすぐに開けます。追加後は旅程をオフラインでも確認できます。</p><div id="install-area"></div></article><article class="detail-card status-card"><div><div class="detail-label">OFFLINE</div><h3>オフライン対応</h3><p>旅程と基本情報は端末に保存されます。地図と運航状況の確認には通信が必要です。</p></div><span class="status-dot">対応済み</span></article><article class="detail-card"><div class="detail-label">VERSION</div><h3>香港旅行 PWA</h3><p>バージョン 1.6<br>旅程更新日：2026年9月14日</p></article></section>`);
   renderInstall();
 }
 
@@ -79,8 +79,18 @@ function renderInstall(){
   area.innerHTML=`<div class="install-card"><div><p>${ios?'Safariの共有ボタンから「ホーム画面に追加」を選びます。':'アプリとして追加すると、オフラインでもすぐに開けます。'}</p></div>${deferredInstall?'<button data-install>追加</button>':''}</div>`;
 }
 
+function showInstallModal(){
+  if(matchMedia('(display-mode: standalone)').matches||sessionStorage.installModalSeen)return;
+  sessionStorage.installModalSeen='1';
+  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  const modal=document.createElement('div');modal.className='install-modal';modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-labelledby','install-title');
+  modal.innerHTML=`<div class="install-backdrop" data-close-install></div><section class="install-dialog"><button class="modal-close" data-close-install aria-label="閉じる">×</button><div class="modal-app-icon"><img src="assets/icons/icon-192.png" alt=""></div><p class="modal-kicker">香港旅行をすぐ開く</p><h2 id="install-title">ホーム画面に追加</h2><p class="modal-lead">旅程をオフラインでも、アプリのようにすぐ確認できます。</p><ol class="install-steps">${ios?'<li><b>1</b><span>Safari下部の共有ボタン <strong>□↑</strong> をタップ</span></li><li><b>2</b><span>「ホーム画面に追加」を選択</span></li>':'<li><b>1</b><span>ブラウザのメニュー <strong>︙</strong> を開く</span></li><li><b>2</b><span>「アプリをインストール」または「ホーム画面に追加」を選択</span></li>'}</ol>${deferredInstall?'<button class="modal-install-button" data-install>ホーム画面に追加</button>':''}<button class="modal-later" data-close-install>あとで</button></section>`;
+  document.body.append(modal);
+  requestAnimationFrame(()=>modal.classList.add('visible'));
+}
+
 document.addEventListener('click',async e=>{
-  const t=e.target.closest('[data-home],[data-date],[data-info],[data-settings],[data-event],[data-transit],[data-copy],[data-install],[data-dismiss]'); if(!t)return;
+  const t=e.target.closest('[data-home],[data-date],[data-info],[data-settings],[data-event],[data-transit],[data-copy],[data-install],[data-dismiss],[data-close-install]'); if(!t)return;
   if(t.matches('[data-home]')) smoothRender(renderHome);
   else if(t.dataset.date) smoothRender(()=>renderDay(t.dataset.date));
   else if(t.matches('[data-info]')) smoothRender(renderInfo);
@@ -88,15 +98,16 @@ document.addEventListener('click',async e=>{
   else if(t.matches('[data-event]')) {const b=t.querySelector('.event-summary'); if(e.target.closest('a,[data-copy]'))return; t.classList.toggle('open'); b.setAttribute('aria-expanded',t.classList.contains('open'));}
   else if(t.matches('[data-transit]')) {const b=t.querySelector('.transit-summary');t.classList.toggle('open');b.setAttribute('aria-expanded',t.classList.contains('open'));}
   else if(t.dataset.copy!==undefined){await navigator.clipboard.writeText(t.dataset.copy);showToast('コピーしました');}
-  else if(t.matches('[data-install]')){deferredInstall.prompt(); await deferredInstall.userChoice; deferredInstall=null;renderInstall();}
+  else if(t.matches('[data-install]')){deferredInstall.prompt(); await deferredInstall.userChoice; deferredInstall=null;document.querySelector('.install-modal')?.remove();renderInstall();}
+  else if(t.matches('[data-close-install]')){const modal=t.closest('.install-modal');modal?.classList.remove('visible');setTimeout(()=>modal?.remove(),220);}
   else {localStorage.installDismissed='1';document.querySelector('#install-area').innerHTML='';}
 });
 
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;renderInstall();});
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;renderInstall();const dialog=document.querySelector('.install-dialog');if(dialog&&!dialog.querySelector('[data-install]')){const button=document.createElement('button');button.className='modal-install-button';button.dataset.install='';button.textContent='ホーム画面に追加';dialog.querySelector('.modal-later').before(button);}});
 window.addEventListener('popstate',route);
 function route(){const h=location.hash.slice(1);if(h==='info')renderInfo();else if(h==='settings')renderSettings();else if(h.startsWith('day='))renderDay(h.slice(4));else renderHome();}
 
-async function init(){try{trip=await fetch('trip-data.json').then(r=>{if(!r.ok)throw Error();return r.json()});route();setInterval(()=>{if(location.hash.startsWith('#day='))renderDay(location.hash.slice(5));},60000);}catch{app.innerHTML='<main class="error"><h1>旅程を読み込めませんでした</h1><p>通信状態を確認して、もう一度開いてください。</p></main>';}}
+async function init(){try{trip=await fetch('trip-data.json').then(r=>{if(!r.ok)throw Error();return r.json()});route();setTimeout(showInstallModal,420);setInterval(()=>{if(location.hash.startsWith('#day='))renderDay(location.hash.slice(5));},60000);}catch{app.innerHTML='<main class="error"><h1>旅程を読み込めませんでした</h1><p>通信状態を確認して、もう一度開いてください。</p></main>';}}
 
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').then(reg=>{reg.addEventListener('updatefound',()=>{const worker=reg.installing;worker.addEventListener('statechange',()=>{if(worker.state==='installed'&&navigator.serviceWorker.controller){const bar=document.createElement('div');bar.className='update-bar';bar.innerHTML='<span>旅程が更新されました</span><button>更新する</button>';bar.querySelector('button').onclick=()=>worker.postMessage({type:'SKIP_WAITING'});document.body.append(bar);}});});});let refreshing=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!refreshing){refreshing=true;location.reload();}});}
 init();
